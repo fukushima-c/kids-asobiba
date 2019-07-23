@@ -1,0 +1,147 @@
+<!DOCTYPE HTML>
+<html lang="ja">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>屋内遊び場マップ</title>
+  <link rel="manifest" href="./manifest.json">
+  <link rel="stylesheet" type="text/css" href="./bootstrap.min.css">
+  <script src="https://www.gstatic.com/firebasejs/6.3.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/6.3.1/firebase-messaging.js"></script>
+</head>
+
+<body>
+
+  <div class="col-sm-3"></div>
+
+  <div class="col-sm-6">
+    <h1 class="text-center">屋内遊び場マップ</h1>
+    <h2 id="newitem" class="text-center"></h2>
+    <button id="button" onclick="getSubscription()" class="btn center-block"></button>
+  </div>
+
+  <div class="col-sm-3"></div>
+  <div>
+  <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1571.4774023976834!2d140.6252300211671!3d38.02483309460069!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x5f8a4197bdf75613%3A0xbde7f7f56dc201!2z44GT44GY44KF44GG44KN44GG44Kt44OD44K644Op44Oz44OJ!5e0!3m2!1sja!2sjp!4v1563850495539!5m2!1sja!2sjp" width="600" height="450" frameborder="0" style="border:0" allowfullscreen></iframe>
+  </div>
+
+  <script>
+
+    // Firebase のSDKを利用し、SenderIDを設定して初期化
+
+    const config = {
+      messagingSenderId: "425400882324"
+    };
+    firebase.initializeApp(config);
+    const messaging = firebase.messaging();
+    messaging.usePublicVapidKey("BAYpdK9tg4c2rq2aYCRDlIbWfbKQeL_k5RIg5UsstWdy9xSca-Rbpu8T5VuA-2yD9aIeKX86MvPSGg_4pw9ZUno");
+
+// Service Worker ファイルを登録し、ボタン表示を行う
+    registSW();
+    initialButton();
+
+    function initialButton() {
+      messaging.getToken().then(token => {
+        if (token) {
+          document.getElementById("button").innerText = "プッシュ通知を購読中";
+        } else {
+          document.getElementById("button").innerText = "プッシュ通知を受け取る";
+        }
+      }).catch(function (err) {
+        console.log('An error occurred while retrieving token. ', err);
+      });
+    }
+
+// トークンが未取得の場合 = プッシュ通知を未購読の場合、プッシュ通知の登録許可を行う
+// すでに購読済みの場合、取得済みのFirebase用トークンを表示
+
+    function getSubscription() {
+      messaging.getToken().then(token => {
+        if (!token) {
+          getNotification();
+        } else {
+          displayToken();
+        }
+      }).catch(function (err) {
+        console.log('An error occurred while retrieving token. ', err);
+      });
+    }
+
+//  Firebase のSDKを使い、プッシュ通知の購読処理を行う
+
+    function getNotification() {
+      messaging.requestPermission().then(function () {
+        console.log('Notification permission granted.');
+        displayToken();
+        initialButton();
+      }).catch(function (err) {
+        console.log('Unable to get permission to notify.', err);
+      });
+    }
+
+//　トークン表示
+
+    function displayToken() {
+      messaging.getToken().then(token => {
+        if (token) {
+          console.log(token);
+        } else {
+          console.log('No Instance ID token available. Request permission to generate one.');
+        }
+      }).catch(function (err) {
+        console.log('An error occurred while retrieving token. ', err);
+      });
+    }
+
+//　Service Worker ファイルを登録
+
+	function registSW() {
+
+  	  if ('serviceWorker' in navigator) {
+    	window.addEventListener('load', function () {
+    	  navigator.serviceWorker.register('./serviceworker.js', { scope: './' })
+        	.then(function (registration) {
+        	  console.log('Serviceworker.js registration successful with scope: ', registration.scope);
+        	}, function (err) {
+        	  console.log('Serviceworker.js registration failed: ', err);
+        	});
+    	});
+	  }
+
+
+	  if ('serviceWorker' in navigator) {
+    	window.addEventListener('load', function () {
+      	navigator.serviceWorker.register('/firebase-messaging-sw.js')
+        	.then(function (registration) {
+          	console.log('firebase-messaging-sw.js registration successful with scope: ', registration.scope);
+        	}, function (err) {
+          	console.log('firebase-messaging-sw.js registration failed: ', err);
+        	});
+    	  });
+  	  }
+	}
+  </script>
+  <!-- The core Firebase JS SDK is always required and must be listed first -->
+<script src="https://www.gstatic.com/firebasejs/6.3.1/firebase-app.js"></script>
+
+<!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#config-web-app -->
+
+<script>
+  // Your web app's Firebase configuration
+  var firebaseConfig = {
+    apiKey: "AIzaSyBa23sX7FnnXdy2B6GhcQYbxFt337JzQw8",
+    authDomain: "kids-asobiba.firebaseapp.com",
+    databaseURL: "https://kids-asobiba.firebaseio.com",
+    projectId: "kids-asobiba",
+    storageBucket: "",
+    messagingSenderId: "425400882324",
+    appId: "1:425400882324:web:118a2fff9c4280ac"
+  };
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+</script>
+</body>
+
+</html>
