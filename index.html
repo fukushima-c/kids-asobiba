@@ -21,9 +21,8 @@
   </div>
 
   <div class="col-sm-3"></div>
-  <div>
-<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1115.1909960108387!2d140.46903335135397!3d37.76105332945402!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x5f8a85da323532b1%3A0x10870f32049620e3!2z5bGL5YaF44GC44Gd44Gz5aC044CM44GV44KT44Gp44OR44O844Kv44CN!5e0!3m2!1sja!2sjp!4v1563933988015!5m2!1sja!2sjp" width="600" height="450" frameborder="0" style="border:0" allowfullscreen></iframe>
-  </div>
+
+	<div id="map"></div>  
 
   <script>
 
@@ -141,6 +140,54 @@
   // Initialize Firebase
   firebase.initializeApp(firebaseConfig);
 </script>
+<script type="text/javascript">
+
+function initMap() {
+    var locations = [
+         ['福島市さんどパーク', 37.762173, 140.469164],
+         ['こむこむ', 37.752395, 140.460549],
+         ['十六沼公園', 37.815635, 140.415997],
+         ['伊達市ちびっこ広場', 37.814486, 140.620799]
+
+    ];
+    var map = new google.maps.Map(document.getElementById('map'), {
+         zoom: 12,
+         center: new google.maps.LatLng(37.762173, 140.469164),
+         mapTypeId: google.maps.MapTypeId.ROADMAP
+    });
+
+    var infowindow = new google.maps.InfoWindow;
+    var marker, i;
+
+    for (i = 0; i < locations.length; i++) {  
+        marker = new google.maps.Marker({
+             position: new google.maps.LatLng(locations[i][1], locations[i][2]),
+             map: map
+        });
+
+        google.maps.event.addListener(marker, 'click', (function(marker, i) {
+             return function() {
+                 infowindow.setContent(locations[i][0]);
+                 infowindow.open(map, marker);
+             }
+        })(marker, i));
+    }
+}
+</script>
+
+<script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAU1NLe2ASmgppv5s_ZnOabpgMErhQBhtk&callback=initMap">
+</script>
+
+<style type="text/css">
+  #map { height: 400px;
+    margin-left:auto;
+    margin-right:auto;
+    text-align:left;
+    width: 80%;}
+</style>
+
+
 </body>
 
 </html>
