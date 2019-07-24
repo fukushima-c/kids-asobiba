@@ -33,11 +33,6 @@ html, body {
   padding 5px 5px;
 }
 
-.amap {
-  float:left;
-  width:50%
-}
-
 
 @media (max-width:780px) {
   .amap {width:100%}
