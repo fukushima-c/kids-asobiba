@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>屋内遊び場マップ</title>
   <link rel="manifest" href="./manifest.json">
-  <link rel="stylesheet" type="text/css" href="./bootstrap.min.css">
   <script src="https://www.gstatic.com/firebasejs/6.3.1/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/6.3.1/firebase-messaging.js"></script>
 </head>
@@ -152,15 +151,9 @@ function initMap() {
 
     ];
     var map = new google.maps.Map(document.getElementById('map'), {
-<<<<<<< HEAD
          zoom: 12,
          center: new google.maps.LatLng(37.762173, 140.469164),
-         mapTypeId: google.maps.MapTypeId.ROADMAP
-=======
-         zoom: 12,	// 縮尺
-         center: new google.maps.LatLng(37.762173, 140.469164),	// 中心緯度経度
-         mapTypeId: google.maps.MapTypeId.ROADMAP	//地図の種類
->>>>>>> parent of 7d947b7... 地図でない
+         mapTypeId: google.maps.MapTypeId.ROADMAP	
     });
 
     var infowindow = new google.maps.InfoWindow;
