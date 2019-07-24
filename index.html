@@ -5,27 +5,86 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>屋内遊び場マップ</title>
   <link rel="manifest" href="./manifest.json">
-  <link rel="stylesheet" type="text/css" href="./bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="scripts/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="styles/app.css">
   <script src="https://www.gstatic.com/firebasejs/6.3.1/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/6.3.1/firebase-messaging.js"></script>
 </head>
 
 <body>
 
+<div class="app-main">
   <div class="col-sm-3"></div>
 
   <div class="col-sm-6">
-    <h1 class="text-center">屋内遊び場マップテスト</h1>
+    <h1 class="text-center">屋内遊び場マップ</h1>
     <h2 id="newitem" class="text-center"></h2>
-    <button id="button" onclick="getSubscription()" class="btn center-block"></button>
+    <button id="button"  class="mybuttons" onclick="getSubscription()" ></button>
   </div>
 
   <div class="col-sm-3"></div>
 
-	<div id="map"></div>  
+  <div id="map" class="amap"></div>  
+  
+</div>
+<!---- app-main end    ------>
+ 
+<script>
 
-  <script>
+  // Google Maps API
+function initMap() {
+    var locations = [
+         ['福島市さんどパーク', 37.762173, 140.469164],
+         ['こむこむ', 37.752395, 140.460549],
+         ['おもちゃ広場', 37.763271, 140.463318],
+         ['あづま総合体育館　軽運動室', 37.725147, 140.364950],
+         ['さゆりこども園', 37.758758, 140.416794],
+         ['ほくしん保育園　わくわくひろばにじ', 37.789380, 140.472426],
+         ['十六沼公園', 37.815635, 140.415997],
+         ['げんきキッズパークにほんまつ', 37.595388, 140.464573],
+         ['ちびっこ広場', 37.814428, 140.620812],
+         ['ファミリーパークだて',37.824973, 140.495895 ],
+         ['レオパークやながわ', 37.854498, 140.603290],
+         ['スマイルパークほばら', 37.813343, 140.545328],
+         ['伊達市ちびっこ広場', 37.814486, 140.620799],
+         ['桑折町屋内プール内　イコーゼ！', 37.847870, 140.527451],
+         ['おてひめわくわくらんど', 37.660326, 140.605865],
+         ['こじゅうろうキッズランド', 38.025120, 140.626327],
+         ['白石市ふれあいプラザ　やんちゃっこ', 38.001701, 140.622523]
+    ];
+    var map = new google.maps.Map(document.getElementById('map'), {
+         zoom: 12,	// 縮尺
+         center: new google.maps.LatLng(37.762173, 140.469164),	// 中心緯度経度
+         mapTypeId: google.maps.MapTypeId.ROADMAP	//地図の種類
+    });
 
+    var infowindow = new google.maps.InfoWindow;
+    
+    // 複数マーカー設置
+    var marker, i;
+
+    for (i = 0; i < locations.length; i++) {  
+        marker = new google.maps.Marker({
+             position: new google.maps.LatLng(locations[i][1], locations[i][2]),
+             map: map
+        });
+
+        google.maps.event.addListener(marker, 'click', (function(marker, i) {
+             return function() {
+                 infowindow.setContent(locations[i][0]);
+                 infowindow.open(map, marker);
+             }
+        })(marker, i));
+    }
+}
+</script>
+
+<script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDXUa7Hj6EwsF4qMbNIMq1p2SJ7EB47hFs&callback=initMap">
+</script>
+
+///////  プッシュ通知処理
+<script>
     // Firebase のSDKを利用し、SenderIDを設定して初期化
 
     const config = {
@@ -95,7 +154,7 @@
 //　Service Worker ファイルを登録
 
 	function registSW() {
-
+		// PWA用 Service Worker
   	  if ('serviceWorker' in navigator) {
     	window.addEventListener('load', function () {
     	  navigator.serviceWorker.register('./serviceworker.js', { scope: './' })
@@ -107,7 +166,7 @@
     	});
 	  }
 
-
+		// Firebase用 Service Worker
 	  if ('serviceWorker' in navigator) {
     	window.addEventListener('load', function () {
       	navigator.serviceWorker.register('/firebase-messaging-sw.js')
@@ -125,68 +184,6 @@
 
 <!-- TODO: Add SDKs for Firebase products that you want to use
      https://firebase.google.com/docs/web/setup#config-web-app -->
-
-<script>
-  // Your web app's Firebase configuration
-  var firebaseConfig = {
-    apiKey: "AIzaSyBa23sX7FnnXdy2B6GhcQYbxFt337JzQw8",
-    authDomain: "kids-asobiba.firebaseapp.com",
-    databaseURL: "https://kids-asobiba.firebaseio.com",
-    projectId: "kids-asobiba",
-    storageBucket: "",
-    messagingSenderId: "425400882324",
-    appId: "1:425400882324:web:118a2fff9c4280ac"
-  };
-  // Initialize Firebase
-  firebase.initializeApp(firebaseConfig);
-</script>
-<script type="text/javascript">
-
-function initMap() {
-    var locations = [
-         ['福島市さんどパーク', 37.762173, 140.469164],
-         ['こむこむ', 37.752395, 140.460549],
-         ['十六沼公園', 37.815635, 140.415997],
-         ['伊達市ちびっこ広場', 37.814486, 140.620799]
-
-    ];
-    var map = new google.maps.Map(document.getElementById('map'), {
-         zoom: 12,
-         center: new google.maps.LatLng(37.762173, 140.469164),
-         mapTypeId: google.maps.MapTypeId.ROADMAP
-    });
-
-    var infowindow = new google.maps.InfoWindow;
-    var marker, i;
-
-    for (i = 0; i < locations.length; i++) {  
-        marker = new google.maps.Marker({
-             position: new google.maps.LatLng(locations[i][1], locations[i][2]),
-             map: map
-        });
-
-        google.maps.event.addListener(marker, 'click', (function(marker, i) {
-             return function() {
-                 infowindow.setContent(locations[i][0]);
-                 infowindow.open(map, marker);
-             }
-        })(marker, i));
-    }
-}
-</script>
-
-<script async defer
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDXUa7Hj6EwsF4qMbNIMq1p2SJ7EB47hFs&callback=initMap">
-</script>
-
-<style type="text/css">
-  #map { height: 400px;
-    margin-left:auto;
-    margin-right:auto;
-    text-align:left;
-    width: 80%;}
-</style>
-
 
 </body>
 

@@ -29,47 +29,20 @@ html, body {
   padding-right: 12px;
 }
 
-.number-input {
-  overflow:visible;
-  padding:8px;
-  display:block;
-  border:1px solid #bbb;
-  width:100%;
-}
-
-.column-full {
-  float:left;
-  width:100%
-}
-
-.column-half {
-  float:left;
-  width:50%
-}
-
 .mybuttons {
   padding 5px 5px;
 }
 
-@media (max-width:600px) {
-  .column-half{width:100%}
+.amap {
+  float:left;
+  width:50%
 }
 
-.content-row,.content-row>.column-30p {
-  padding:6px 8px
-}
-.result-row {
-  padding:5px 8px
+
+@media (max-width:780px) {
+  .amap {width:100%}
 }
 
-.result-label {
-  font-weight: bold;
-}
-.samplerd {
-  padding:3px 0px 0px 0px;
-  margin:0px 0px;
-  font-size: 70%;
-}
 
 .memo {
   padding:3px 0px 0px 8px;
