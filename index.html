@@ -24,11 +24,13 @@
   <div class="col-sm-3"></div>
 
   <div id="map" class="maparea"></div>  
+
 </div>
-<!------ end of main ----->
+
+<!------ end of app-main ----->
+
 
   <script>
-
     // Firebase のSDKを利用し、SenderIDを設定して初期化
 
     const config = {
@@ -98,7 +100,7 @@
 //　Service Worker ファイルを登録
 
 	function registSW() {
-
+		// PWA用
   	  if ('serviceWorker' in navigator) {
     	window.addEventListener('load', function () {
     	  navigator.serviceWorker.register('./serviceworker.js', { scope: './' })
@@ -110,7 +112,7 @@
     	});
 	  }
 
-
+		// firebase用
 	  if ('serviceWorker' in navigator) {
     	window.addEventListener('load', function () {
       	navigator.serviceWorker.register('/firebase-messaging-sw.js')
@@ -143,10 +145,11 @@
   // Initialize Firebase
   firebase.initializeApp(firebaseConfig);
 </script>
-<script type="text/javascript">
 
 
-function initMap() {
+<script>
+	// Google Maps API で地図表示
+  function initMap() {
     var locations = [
          ['福島市さんどパーク', 37.762173, 140.469164],
          ['こむこむ', 37.752395, 140.460549],
@@ -167,7 +170,7 @@ function initMap() {
          ['白石市ふれあいプラザ　やんちゃっこ', 38.001701, 140.622523]
     ];
     var map = new google.maps.Map(document.getElementById('map'), {
-         zoom: 13,
+         zoom: 14,
          center: new google.maps.LatLng(37.762173, 140.469164),
          mapTypeId: google.maps.MapTypeId.ROADMAP	
     });
@@ -188,9 +191,8 @@ function initMap() {
              }
         })(marker, i));
     }
-}
+  }
 </script>
-
 
 <script async defer
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDXUa7Hj6EwsF4qMbNIMq1p2SJ7EB47hFs&callback=initMap">
