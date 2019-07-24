@@ -4,6 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>屋内遊び場マップ</title>
+  <link rel="stylesheet" type="text/css" href="styles/app.css">
   <link rel="manifest" href="./manifest.json">
   <script src="https://www.gstatic.com/firebasejs/6.3.1/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/6.3.1/firebase-messaging.js"></script>
@@ -11,17 +12,20 @@
 
 <body>
 
+<div class="app-main">
   <div class="col-sm-3"></div>
 
   <div class="col-sm-6">
-    <h1 class="text-center">屋内遊び場マップテスト</h1>
+    <h1 class="text-center">屋内遊び場マップ</h1>
     <h2 id="newitem" class="text-center"></h2>
     <button id="button" onclick="getSubscription()" class="btn center-block"></button>
   </div>
 
   <div class="col-sm-3"></div>
 
-	<div id="map"></div>  
+  <div id="map" class="maparea"></div>  
+</div>
+<!------ end of main ----->
 
   <script>
 
@@ -163,7 +167,7 @@ function initMap() {
          ['白石市ふれあいプラザ　やんちゃっこ', 38.001701, 140.622523]
     ];
     var map = new google.maps.Map(document.getElementById('map'), {
-         zoom: 12,
+         zoom: 13,
          center: new google.maps.LatLng(37.762173, 140.469164),
          mapTypeId: google.maps.MapTypeId.ROADMAP	
     });
@@ -192,13 +196,6 @@ function initMap() {
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDXUa7Hj6EwsF4qMbNIMq1p2SJ7EB47hFs&callback=initMap">
 </script>
 
-<style type="text/css">
-  #map { height: 400px;
-    margin-left:auto;
-    margin-right:auto;
-    text-align:left;
-    width: 80%;}
-</style>
 
 </body>
 

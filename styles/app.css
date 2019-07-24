@@ -29,15 +29,18 @@ html, body {
   padding-right: 12px;
 }
 
+.maparea {
+  height:500px;
+  width:50%
+}
+
 .mybuttons {
   padding 5px 5px;
 }
 
-
 @media (max-width:780px) {
-  .amap {width:100%}
+  .maparea {width:100%}
 }
-
 
 .memo {
   padding:3px 0px 0px 8px;
