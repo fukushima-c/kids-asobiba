@@ -2,8 +2,12 @@
   box-sizing: border-box
 }
 
+html {
+    background-color:#afd7bb;
+    color:#1a1a1a;
+}
 
-html, body {
+body {
   padding: 0;
   margin: 0;
   height: 100%;

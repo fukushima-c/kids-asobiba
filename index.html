@@ -29,9 +29,10 @@
 
 
   <script  type="application/javascript">
+// Serviceworkerの読み込み
   if('serviceWorker' in navigator){
    navigator.serviceWorker
-    .register('serviceworker.js')
+    .register('firebase-messaging-sw.js')
     .then(function(){
       console.log('Service Worker Registered');
    });
@@ -57,8 +58,47 @@
   };
   // Initialize Firebase
   firebase.initializeApp(firebaseConfig);
-</script>
 
+  const messaging = firebase.messaging();
+  
+  function requestPermission() {
+    //プッシュ通知の許可をする処理
+    console.log('Requesting permission...');
+    // [START request_permission]
+    messaging.requestPermission().then(function() {
+      console.log('Notification permission granted.');
+      // TODO(developer): Retrieve an Instance ID token for use with FCM.
+      // [START_EXCLUDE]
+      // In many cases once an app has been granted notification permission, it
+      // should update its UI reflecting this.
+      viewToken();
+      // [END_EXCLUDE]
+    }).catch(function(err) {
+      console.log('Unable to get permission to notify.', err);
+    });
+    // [END request_permission]
+  }
+  
+  function viewToken(){
+    messaging.getToken().then(function(currentToken) {
+      if (currentToken) {
+			//フキダシにトークンを表示。functionはapp.jsに定義。
+        msg02('このデバイスのトークン : '+ currentToken); 
+      } else {
+        // Show permission request.
+        console.log('No Instance ID token available. Request permission to generate one.');
+        // Show permission UI.
+        updateUIForPushPermissionRequired();
+        setTokenSentToServer(false);
+      }
+    }).catch(function(err) {
+      console.log('An error occurred while retrieving token. ', err);
+      showToken('Error retrieving Instance ID token. ', err);
+      setTokenSentToServer(false);
+    });
+  }
+
+</script>
 
 <script>
 	// Google Maps API で地図表示

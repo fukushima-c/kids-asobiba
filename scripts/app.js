@@ -15,6 +15,11 @@ function msg() {
 	$(".fukidashi").text(serif[a + 1]);
 }
 
+//プッシュ通信のメッセージを吹き出しに表示
+function msg02(message) {
+    $(".fukidashi").text(message);
+}
+
 	//プッシュ通信受信承認
 Notification.requestPermission(function(status) {
 	console.log('通知の許可：', status);
