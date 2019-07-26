@@ -13,7 +13,7 @@ var filesToCache = [
 '/styles/app.css'
 ];
 
-const messaging = firebase.messaging();
+var messaging = firebase.messaging();
 
 firebase.initializeApp({
     'messagingSenderId': '425400882324'
