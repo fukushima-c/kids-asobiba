@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>ふくしま屋内遊び場マップ</title>
   <link rel="stylesheet" type="text/css" href="styles/app.css">
+  <link rel="apple-touch-icon" href="kid60.png">
   <link rel="manifest" href="./manifest.json">
   <script src="https://www.gstatic.com/firebasejs/6.3.1/firebase-app.js"></script> 
   <script src="https://www.gstatic.com/firebasejs/6.3.1/firebase-messaging.js"></script>
@@ -15,118 +16,26 @@
 
 <body>
 
-<div class="app-main">
-  <div class="col-sm-3"></div>
-
-  <div class="col-sm-6">
-    <h1 class="text-center">ふくしま屋内遊び場マップ</h1>
-    <h2 id="newitem" class="text-center"></h2>
-    <button id="button" onclick="getSubscription()" class="mybuttons"></button>
+  <div class="container">
+    <h2 class="text-center">ふくしま屋内遊び場マップ</h2>
+    <div class="fukidashi">タップしてください！</div>
+    <div class="fukidashi_fuchi"><img src="img/fukidashi_fuchi.png" alt=""></div>
+    <img src="img/kid200.png" alt="タップで表示" onclick="msg();" class="kid">
+    <div id="map" class="maparea"></div>  
   </div>
 
-  <div class="col-sm-3"></div>
-
-  <div id="map" class="maparea"></div>  
-
-</div>
 
 <!------ end of app-main ----->
 
 
-  <script>
-    // Firebase のSDKを利用し、SenderIDを設定して初期化
-
-    const config = {
-      messagingSenderId: "425400882324"
-    };
-    firebase.initializeApp(config);
-    const messaging = firebase.messaging();
-    messaging.usePublicVapidKey("BAYpdK9tg4c2rq2aYCRDlIbWfbKQeL_k5RIg5UsstWdy9xSca-Rbpu8T5VuA-2yD9aIeKX86MvPSGg_4pw9ZUno");
-
-// Service Worker ファイルを登録し、ボタン表示を行う
-    registSW();
-    initialButton();
-
-    function initialButton() {
-      messaging.getToken().then(token => {
-        if (token) {
-          document.getElementById("button").innerText = "プッシュ通知を購読中";
-        } else {
-          document.getElementById("button").innerText = "プッシュ通知を受け取る";
-        }
-      }).catch(function (err) {
-        console.log('An error occurred while retrieving token. ', err);
-      });
-    }
-
-// トークンが未取得の場合 = プッシュ通知を未購読の場合、プッシュ通知の登録許可を行う
-// すでに購読済みの場合、取得済みのFirebase用トークンを表示
-
-    function getSubscription() {
-      messaging.getToken().then(token => {
-        if (!token) {
-          getNotification();
-        } else {
-          displayToken();
-        }
-      }).catch(function (err) {
-        console.log('An error occurred while retrieving token. ', err);
-      });
-    }
-
-//  Firebase のSDKを使い、プッシュ通知の購読処理を行う
-
-    function getNotification() {
-      messaging.requestPermission().then(function () {
-        console.log('Notification permission granted.');
-        displayToken();
-        initialButton();
-      }).catch(function (err) {
-        console.log('Unable to get permission to notify.', err);
-      });
-    }
-
-//　トークン表示
-
-    function displayToken() {
-      messaging.getToken().then(token => {
-        if (token) {
-          console.log(token);
-        } else {
-          console.log('No Instance ID token available. Request permission to generate one.');
-        }
-      }).catch(function (err) {
-        console.log('An error occurred while retrieving token. ', err);
-      });
-    }
-
-//　Service Worker ファイルを登録
-
-	function registSW() {
-		// PWA用
-  	  if ('serviceWorker' in navigator) {
-    	window.addEventListener('load', function () {
-    	  navigator.serviceWorker.register('./serviceworker.js', { scope: './' })
-        	.then(function (registration) {
-        	  console.log('Serviceworker.js registration successful with scope: ', registration.scope);
-        	}, function (err) {
-        	  console.log('Serviceworker.js registration failed: ', err);
-        	});
-    	});
-	  }
-
-		// firebase用
-	  if ('serviceWorker' in navigator) {
-    	window.addEventListener('load', function () {
-      	navigator.serviceWorker.register('/firebase-messaging-sw.js')
-        	.then(function (registration) {
-          	console.log('firebase-messaging-sw.js registration successful with scope: ', registration.scope);
-        	}, function (err) {
-          	console.log('firebase-messaging-sw.js registration failed: ', err);
-        	});
-    	  });
-  	  }
-	}
+  <script  type="application/javascript">
+  if('serviceWorker' in navigator){
+   navigator.serviceWorker
+    .register('serviceworker.js')
+    .then(function(){
+      console.log('Service Worker Registered');
+   });
+  }
   </script>
 
 <!-- The core Firebase JS SDK is always required and must be listed first --->
