@@ -23,11 +23,22 @@ html, body {
   margin: 6px 0 0 16px;
 }
 
-.app-main {
+.container {
   padding-top: 50px;
   padding-left: 12px;
   padding-right: 12px;
 }
+
+/*‚Ó‚«‚¾‚µ*/
+.fukidashi{
+  display: inline-block;
+  background-color: #fff;
+  border-radius: 15px;
+  padding: 10px 15px;
+}
+ img.kid{
+  max-width:100%;
+ }
 
 .maparea {
   height:500px;

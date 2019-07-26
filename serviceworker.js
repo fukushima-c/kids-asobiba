@@ -5,6 +5,7 @@ var filesToCache = [
     '/',
     '/index.html',
     '/scripts/app.js',
+    '/scripts/jquery-3.4.1.min.js',
     '/styles/app.css'
 ];
 
@@ -54,7 +55,10 @@ self.addEventListener('push',function(event) {
   console.log('Push Notification Recieved', event);
   if (Notification.permission == 'granted') {
     event.waitUntil(
-      self.registration.showNotification('プッシュ通知を受信しました！！').then(function(showEvent) {
+      self.registration.showNotification('プッシュ通知を受信しました！！', {
+        body: "お知らせです",
+        icon: "kid60.png"
+      }).then(function(showEvent) {
         console.log('お知らせです', showEvent)
       }, function(error) {
         console.log(error);
