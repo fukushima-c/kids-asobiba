@@ -2,11 +2,6 @@
 	box-sizing: border-box
 }
 
-html {
-	background-color:#afd7bb;
-	color:#1a1a1a;
-}
-
 body {
 	padding: 0;
 	margin: 0;
@@ -29,6 +24,8 @@ body {
 }
 
 .container {
+	background-color:#afd7bb;
+	color:#1a1a1a;
 	padding-top: 50px;
 	padding-left: 12px;
 	padding-right: 12px;
