@@ -84,6 +84,7 @@
 		messaging.getToken().then(function(currentToken) {
 			if (currentToken) {
 			//フキダシにトークンを表示。functionはapp.jsに定義。
+				console.log(currentToken); 
 				msg02('このデバイスのトークン : '+ currentToken); 
 			} else {
 				// Show permission request.
