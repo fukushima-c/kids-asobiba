@@ -5,23 +5,22 @@
 	<meta http-equiv="Pragma" content="no-cache">
 	<meta http-equiv="Cache-Control" content="no-cache">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>ふくしま屋内遊び場マップ</title>
 	<link rel="stylesheet" type="text/css" href="styles/app.css">
-<!--- apple-touch-icon はiOS / Androidでホーム画面に追加したときのアイコン --->
-	<link rel="apple-touch-icon" sizes="180x180"  href="apple-touch-icon.png">
+	<link rel="apple-touch-icon" href="kid60.png">
 	<link rel="manifest" href="./manifest.json">
 	<script src="scripts/jquery-3.4.1.min.js"></script>
 	<script src="scripts/app.js"></script>
-	<title>ふくしま屋内遊び場マップ</title>
+
 </head>
 
 <body>
-	<header class="app-header">
-		<h1 class="header-title">ふくしま屋内遊び場マップ</h1>
-	</header>
+
 	<div class="container">
+		<h2 class="text-center">ふくしま屋内遊び場マップ</h2>
 		<div class="fukidashi">タップしてください！</div>
 		<div class="fukidashi_fuchi"><img src="img/fukidashi_fuchi.png" alt=""></div>
-		<img src="img/kid60.png" alt="タップで表示" onclick="msg();" class="kid">
+		<img src="kid60.png" alt="タップで表示" onclick="msg();" class="kid">
 		<!--許可・トークン表示ボタン-->
 		<br><input type="button" onclick="requestPermission() ;" value="通知を許可">
 		<div id="map" class="maparea"></div>	
