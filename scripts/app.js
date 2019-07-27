@@ -17,7 +17,7 @@ function msg() {
 
 //プッシュ通信のメッセージを吹き出しに表示
 function msg02(message) {
-    $(".fukidashi").text(message);
+	$(".fukidashi").text(message);
 }
 
 	//プッシュ通信受信承認
