@@ -20,15 +20,13 @@
 		<h2 class="text-center">ふくしま屋内遊び場マップ</h2>
 		<div class="fukidashi">タップしてください！</div>
 		<div class="fukidashi_fuchi"><img src="img/fukidashi_fuchi.png" alt=""></div>
-		<img src="img/kid200.png" alt="タップで表示" onclick="msg();" class="kid">
+		<img src="img/kid60.png" alt="タップで表示" onclick="msg();" class="kid">
 		<!--許可・トークン表示ボタン-->
-		<br><input type="button" onclick="requestPermission() ;" value="許可する">
+		<br><input type="button" onclick="requestPermission() ;" value="通知を許可">
 		<div id="map" class="maparea"></div>	
 	</div>
 
-
 <!------ end of app-main ----->
-
 
 	<script	type="application/javascript">
 // Serviceworkerの読み込み
@@ -155,7 +153,5 @@
 				src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDXUa7Hj6EwsF4qMbNIMq1p2SJ7EB47hFs&callback=initMap">
 </script>
 
-
 </body>
-
 </html>
