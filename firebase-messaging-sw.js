@@ -13,12 +13,11 @@ var filesToCache = [
 	'/styles/app.css'
 ];
 
-const messaging = firebase.messaging();
-
 firebase.initializeApp({
 	'messagingSenderId': '425400882324'
 });
 
+const messaging = firebase.messaging();
 
 // PWAとして動かすには以下の３つのイベントに対するリスナーが必須
 
