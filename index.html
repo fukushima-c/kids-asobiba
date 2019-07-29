@@ -10,7 +10,16 @@
 	<link rel="apple-touch-icon" sizes="180x180"  href="apple-touch-icon.png">
 	<link rel="manifest" href="./manifest.json">
 	<script src="scripts/jquery-3.4.1.min.js"></script>
+	<script type="text/javascript" src="scripts/KiiSDK.js"></script>
+	<script type="text/javascript" src="browser-mqtt.js"></script>
 	<script src="scripts/app.js"></script>
+	<script type="text/javascript">
+		window.onload = function() {
+			Kii.initializeWithSite("pwpaziewtcfw", "kidsasobiba", KiiSite.JP);
+			execute();
+		}
+	</script>
+
 	<title>ふくしま屋内遊び場マップ</title>
 </head>
 
@@ -34,75 +43,13 @@
 // Serviceworkerの読み込み
 	if('serviceWorker' in navigator){
 	 navigator.serviceWorker
-		.register('firebase-messaging-sw.js')
+		.register('serviceworker.js')
 		.then(function(){
 			console.log('Service Worker Registered');
 	 });
 	}
 	</script>
 
-<!-- The core Firebase JS SDK is always required and must be listed first --->
-<script src="https://www.gstatic.com/firebasejs/6.3.1/firebase-app.js"></script> 
-<script src="https://www.gstatic.com/firebasejs/6.3.1/firebase-messaging.js"></script>
-		
-<!-- TODO: Add SDKs for Firebase products that you want to use
-		 https://firebase.google.com/docs/web/setup#config-web-app -->
-
-<script>
-	// Your web app's Firebase configuration
-	var firebaseConfig = {
-		apiKey: "AIzaSyBa23sX7FnnXdy2B6GhcQYbxFt337JzQw8",
-		authDomain: "kids-asobiba.firebaseapp.com",
-		databaseURL: "https://kids-asobiba.firebaseio.com",
-		projectId: "kids-asobiba",
-		storageBucket: "",
-		messagingSenderId: "425400882324",
-		appId: "1:425400882324:web:118a2fff9c4280ac"
-	};
-	// Initialize Firebase
-	firebase.initializeApp(firebaseConfig);
-
-	const messaging = firebase.messaging();
-	
-	function requestPermission() {
-		//プッシュ通知の許可をする処理
-		console.log('Requesting permission...');
-		// [START request_permission]
-		messaging.requestPermission().then(function() {
-			console.log('Notification permission granted.');
-			// TODO(developer): Retrieve an Instance ID token for use with FCM.
-			// [START_EXCLUDE]
-			// In many cases once an app has been granted notification permission, it
-			// should update its UI reflecting this.
-			viewToken();
-			// [END_EXCLUDE]
-		}).catch(function(err) {
-			console.log('Unable to get permission to notify.', err);
-		});
-		// [END request_permission]
-	}
-	
-	function viewToken(){
-		messaging.getToken().then(function(currentToken) {
-			if (currentToken) {
-			//フキダシにトークンを表示。functionはapp.jsに定義。
-				console.log(currentToken); 
-				msg02('このデバイスのトークン : '+ currentToken); 
-			} else {
-				// Show permission request.
-				console.log('No Instance ID token available. Request permission to generate one.');
-				// Show permission UI.
-				updateUIForPushPermissionRequired();
-				setTokenSentToServer(false);
-			}
-		}).catch(function(err) {
-			console.log('An error occurred while retrieving token. ', err);
-			showToken('Error retrieving Instance ID token. ', err);
-			setTokenSentToServer(false);
-		});
-	}
-
-</script>
 
 <script>
 	// Google Maps API で地図表示
