@@ -14,6 +14,7 @@ function msg() {
 	$(".fukidashi").text(serif[a + 1]);
 }
 
+// 
 function execute() {
   var username = "user1";
   var password = "123ABC";
@@ -65,6 +66,6 @@ function execute() {
       alert("Error in Initialization: " + errorString);
     }
   );
-
 }
+
 
