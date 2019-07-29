@@ -72,3 +72,4 @@ self.addEventListener('notificationclick', function(event) {
   console.log('Notification Clicked.', event.notification.tag);
   event.notification.close();
 });
+
