@@ -17,7 +17,7 @@ function msg() {
 
 function execute() {
   var username = "user2";
-  var password = "123ABC";
+  var password = "456DEF";
   KiiUser.authenticate(username, password).then(
     function(theUser) {
       var development = false;
