@@ -33,7 +33,32 @@ function execute() {
       var username = response.username;
       var password = response.password;
       var mqttTopic = response.mqttTopic;
-      alert("Success installation username:" + username + ", password: " + password + ", mqttTopic:" + mqttTopic);
+
+      var endpoint = "wss://" + response.host + ":" + response.portWSS + "/mqtt";
+      var client = mqtt.connect(endpoint, {
+        username: username,
+        password: password,
+        clientId: mqttTopic,
+      });
+
+      client.on("connect", function() {
+        console.log("MQTT Connected");
+        client.subscribe(mqttTopic, function() {
+          console.log("MQTT Subscribed");
+        });
+      });
+
+      client.on("message", function(topic, message, packet) {
+        if (topic === mqttTopic) {
+          var payload = JSON.parse(message.toString());
+          var myMessage = payload.mymessage;
+          alert("Message Arrived:" + myMessage);
+        }
+      });
+
+      client.on("error", function(error) {
+        alert("Error in MQTT" + error);
+      });
     }
   ).catch(
     function(error) {
