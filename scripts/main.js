@@ -35,30 +35,35 @@ function execute() {
       var mqttTopic = response.mqttTopic;
 
       var endpoint = "wss://" + response.host + ":" + response.portWSS + "/mqtt";
-      var client = mqtt.connect(endpoint, {
-        username: username,
-        password: password,
-        clientId: mqttTopic,
+      var clientId = mqttTopic;
+      var client = new Paho.MQTT.Client(endpoint, clientId);
+
+      client.onConnectionLost = onConnectionLost;
+      client.onMessageArrived = onMessageArrived;
+
+      client.connect({onSuccess:onConnect,
+        userName:username,
+        password:password,
       });
 
-      client.on("connect", function() {
+      function onConnect() {
         console.log("MQTT Connected");
-        client.subscribe(mqttTopic, function() {
-          console.log("MQTT Subscribed");
-        });
-      });
+        client.subscribe(mqttTopic);
+      }
 
-      client.on("message", function(topic, message, packet) {
-        if (topic === mqttTopic) {
-          var payload = JSON.parse(message.toString());
+      function onConnectionLost(responseObject) {
+        if (responseObject.errorCode !== 0) {
+            alert("MQTT Connection Lost:" + responseObject.errorMessage);
+        }
+      }
+
+      function onMessageArrived(message) {
+        if (message.destinationName === mqttTopic) {
+          var payload = JSON.parse(message.payloadString);
           var myMessage = payload.mymessage;
           alert("Message Arrived:" + myMessage);
         }
-      });
-
-      client.on("error", function(error) {
-        alert("Error in MQTT" + error);
-      });
+      }
     }
   ).catch(
     function(error) {
