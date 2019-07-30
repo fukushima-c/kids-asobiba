@@ -14,18 +14,56 @@ function msg() {
 	$(".fukidashi").text(serif[a + 1]);
 }
 
+// 
 function execute() {
   var username = "user1";
   var password = "123ABC";
-  var user = KiiUser.userWithUsername(username, password);
-  user.register().then(
+  KiiUser.authenticate(username, password).then(
     function(theUser) {
-      alert("Succeeded");
+      var development = false;
+      return KiiUser.getCurrentUser().pushInstallation().installMqtt(development);
+    }
+  ).then(
+    function(response) {
+      var installationID = response.installationID;
+      return KiiUser.getCurrentUser().pushInstallation().getMqttEndpoint(installationID);
+    }
+  ).then(
+    function(response) {
+      var username = response.username;
+      var password = response.password;
+      var mqttTopic = response.mqttTopic;
+
+      var endpoint = "wss://" + response.host + ":" + response.portWSS + "/mqtt";
+      var client = mqtt.connect(endpoint, {
+        username: username,
+        password: password,
+        clientId: mqttTopic,
+      });
+
+      client.on("connect", function() {
+        console.log("MQTT Connected");
+        client.subscribe(mqttTopic, function() {
+          console.log("MQTT Subscribed");
+        });
+      });
+
+      client.on("message", function(topic, message, packet) {
+        if (topic === mqttTopic) {
+          var payload = JSON.parse(message.toString());
+          var myMessage = payload.mymessage;
+          alert("Message Arrived:" + myMessage);
+        }
+      });
+
+      client.on("error", function(error) {
+        alert("Error in MQTT" + error);
+      });
     }
   ).catch(
     function(error) {
       var errorString = error.message;
-      alert("Error: " + errorString);
+      alert("Error in Initialization: " + errorString);
     }
   );
 }
