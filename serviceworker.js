@@ -4,8 +4,10 @@ var cacheName = 'KidsasobibaShell';
 var filesToCache = [
     '/',
     '/index.html',
-    '/scripts/app.js',
+    '/scripts/main.js',
     '/scripts/jquery-3.4.1.min.js',
+    '/scripts/browser-mqtt.js',
+    '/scripts/KiiSDK.js',
     '/styles/app.css'
 ];
 
